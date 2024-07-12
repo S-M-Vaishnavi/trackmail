@@ -1,47 +1,38 @@
-import React, { useState } from 'react';
-import Stepper from './Stepper';
-import TrackYourEmails from './components/TrackYourEmails';
-import AutomateYourFollowUps from './components/AutomateYourFollowUps';
-import YourDashBoard from './components/YourDashBoard';
+import React,{useState} from 'react'
+import Sidebar from './components/Sidebar';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import TrackYourEmails from './pages/TrackYourEmails'
+import AutomateYourFollowUps from './pages/AutomateYourFollowUps'
+import YourDashBoard from './pages/YourDashBoard'
+import ThankYou from './pages/ThankYou';
+import StepperControl from './StepperControl';
 
-function App() {
+const App = () => {
+    const steps = [
+    "Track your emails",
+    "Automate your follow-ups",
+    "Your dashboard"
+  ];
+
   const [currentStep, setCurrentStep] = useState(1);
-  const steps = [ "Track Your Emails","Automate Your follow-Ups","Your Dashboard"];
-  const displayStep = (step) => {
-    switch(step){
-      case 1:
-        return <TrackYourEmails handleClick={handleClick} currentStep={currentStep} steps={steps}/>;
-      case 2:
-        return <AutomateYourFollowUps handleClick={handleClick} currentStep={currentStep} steps={steps}/>;
-      case 3:
-        return <YourDashBoard handleClick={handleClick} currentStep={currentStep} steps={steps}/>;
+
+    const handleNext = () => {
+    if (currentStep < steps.length) {
+      setCurrentStep(currentStep + 1);
     }
   };
 
-  const handleClick = (direction) => {
-    let newStep = currentStep;
-    if(direction === "next") {
-      newStep++;
-    }else if(direction === "back"){
-      newStep--;
-    }
-
-    if(newStep > 0 && newStep <= steps.length){
-      setCurrentStep(newStep);
+    const handleBack = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
     }
   };
 
   return (
-    <div className="w-11/12 mx-auto shadow-xl rounded-2xl pb-2 px-10 bg-white">
-    {/* stepper */}
-    <div className='container mt-5 xl:px-[200px] md:px-0'>
-      <Stepper steps={steps} currentStep={currentStep}/>
-      {/* Display Components */}
-      <div className='mt-20 pr-10 mr-10 md:pr-0 md:mr-0'>
-          {displayStep(currentStep)}
-      </div>
+    <div className="bg-gray-300 sm:w-[80rem] h-[35rem] mt-[100px] sm:mt-0 rounded-xl shadow-xl flex flex-col sm:flex sm:flex-row justify-between mx-auto">
+      <Sidebar currentStep={currentStep} steps={steps}/>
+      <StepperControl handleBack={handleBack} handleNext={handleNext} currentStep={currentStep} steps={steps}/>
     </div>
-  </div>
   )
 }
 
