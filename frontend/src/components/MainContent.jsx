@@ -16,6 +16,8 @@ const MainContent = ({ currentStep, steps, handleBack, handleNext }) => {
         return <YourDashBoard />;
       case 4:
         return <ThankYou />;
+      default:
+        return <TrackYourEmails />;
     }
   };
 
@@ -24,12 +26,7 @@ const MainContent = ({ currentStep, steps, handleBack, handleNext }) => {
       <div>
         {renderStepContent()}
       </div>
-      <StepperControl 
-        handleBack={handleBack} 
-        handleNext={handleNext} 
-        currentStep={currentStep} 
-        steps={steps}
-      />
+      <StepperControl  handleBack={handleBack}  handleNext={handleNext}  currentStep={currentStep}  steps={steps}/>
     </main>
   );
 };

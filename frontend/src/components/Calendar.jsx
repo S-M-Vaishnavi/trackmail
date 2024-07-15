@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(1);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
   let firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
@@ -21,7 +21,7 @@ const Calendar = () => {
 
     for (let i = 1; i <= daysInMonth; i++) {
       days.push(
-        <div  key={i} className={`w-10 h-10 flex items-center justify-center cursor-pointer transition-colors duration-200 ${selectedDate === i ? 'bg-orange-500 text-white rounded-full' : 'rounded-lg'}`}onClick={() => setSelectedDate(i)}>
+        <div  key={i} className={`w-10 h-10 flex items-center justify-center cursor-pointer transition-colors duration-200 ${selectedDate === i ? 'bg-orange-500 text-white rounded-full' : 'rounded-lg'}`} onClick={() => setSelectedDate(i)}>
           {i}
         </div>
       );

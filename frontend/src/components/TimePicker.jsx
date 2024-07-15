@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 const TimePicker = () => {
-  const [hour, setHour] = useState(5);
-  const [minute, setMinute] = useState(25);
+  const [hour, setHour] = useState(0);
+  const [minute, setMinute] = useState(0);
   const [isPM, setIsPM] = useState(false);
 
   const incrementHour = () => setHour((prev) => (prev % 12) + 1);
@@ -19,13 +19,11 @@ const TimePicker = () => {
 
       <div className="flex flex-col items-center">
         <button onClick={incrementHour} className="text-gray-400 hover:text-gray-600 transform rotate-90">&lt;</button>
-        {/* <span className="text-2xl font-semibold">{hour.toString().padStart(2, '0')}</span> */}
         <button onClick={decrementHour} className="text-gray-400 hover:text-gray-600 transform rotate-90">&gt;</button>
       </div>
       <span className="text-2xl font-semibold">{minute}</span>
       <div className="flex flex-col items-center">
         <button onClick={incrementMinute} className="text-gray-400 hover:text-gray-600 transform rotate-90">&lt;</button>
-        {/* <span className="text-2xl font-semibold">{minute.toString().padStart(2, '0')}</span> */}
         <button onClick={decrementMinute} className="text-gray-400 hover:text-gray-600 transform rotate-90">&gt;</button>
       </div>
       <div className="flex items-center space-x-2">
