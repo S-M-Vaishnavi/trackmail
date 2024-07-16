@@ -1,14 +1,13 @@
 import React, { useContext, useState,useEffect } from 'react';
 import StepperControl from '../StepperControl';
-import { userDataContext } from '../context/UserDataContext';
+import { useUserData } from '../context/UserDataContext';
 
 const AutomateYourFollowUps = ({ currentStep, steps, handleClick }) => {
-  const [followUps, setFollowUps] = useState('');
-  const {userData,setUserData} = useContext(userDataContext);
+  const { userData, updateUserData } = useUserData();
   const [error, setError] = useState('');
 
   const validateError = () => {
-    if (!followUps) {
+    if (!userData.sequence) {
       setError("Select any one Sequence");
       return false;
     }
@@ -17,13 +16,8 @@ const AutomateYourFollowUps = ({ currentStep, steps, handleClick }) => {
   }
 
   const handleChange = (e) => {
-    setFollowUps(e.target.value);
-    setUserData(e.target.value);
+    updateUserData({ sequence: e.target.value });
   }
-  useEffect(() => {
-    setFollowUps(userData);
-  }, [userData]);
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -40,25 +34,25 @@ const AutomateYourFollowUps = ({ currentStep, steps, handleClick }) => {
         <div className='bg-white rounded-lg shadow-md p-6 mx-auto'>
           <h1>Select Ping Sequence</h1>
           <div className="flex items-center mt-3">
-            <input id="radio-vertical-group-1" type="radio" name="sequence" className="mr-2"value="default" checked={followUps === "default"}onChange={handleChange}/>
+            <input id="radio-vertical-group-1" type="radio" name="sequence" className="mr-2"value="default" checked={userData.sequence === "default"}onChange={handleChange}/>
             <label htmlFor="radio-vertical-group-1" className="cursor-pointer text-gray-600 text-sm font-normal">
               Default
             </label>
           </div>
           <div className="flex items-center mt-3">
-            <input id="radio-vertical-group-2" type="radio" name="sequence" className="mr-2"value="sequence1" checked={followUps === "sequence1"}onChange={handleChange}/>
+            <input id="radio-vertical-group-2" type="radio" name="sequence" className="mr-2"value="sequence1" checked={userData.sequence === "sequence1"}onChange={handleChange}/>
             <label htmlFor="radio-vertical-group-2" className="cursor-pointer text-gray-600 text-sm font-normal">
               Follow-Up Sequence #1
             </label>
           </div>
           <div className="flex items-center mt-3">
-            <input id="radio-vertical-group-3" type="radio" name="sequence" className="mr-2"value="sequence2" checked={followUps === "sequence2"}onChange={handleChange}/>
+            <input id="radio-vertical-group-3" type="radio" name="sequence" className="mr-2"value="sequence2" checked={userData.sequence === "sequence2"}onChange={handleChange}/>
             <label htmlFor="radio-vertical-group-3" className="cursor-pointer text-gray-600 text-sm font-normal">
               Follow-Up Sequence #2
             </label>
           </div>
           <div className="flex items-center mt-3">
-            <input id="radio-vertical-group-4" type="radio" name="sequence" className="mr-2"value="sequence3" checked={followUps === "sequence3"}onChange={handleChange} />
+            <input id="radio-vertical-group-4" type="radio" name="sequence" className="mr-2"value="sequence3" checked={userData.sequence === "sequence3"}onChange={handleChange} />
             <label htmlFor="radio-vertical-group-4" className="cursor-pointer text-gray-600 text-sm font-normal">
               Follow-Up Sequence #3
             </label>

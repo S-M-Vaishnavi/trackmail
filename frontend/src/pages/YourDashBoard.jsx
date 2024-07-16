@@ -1,12 +1,28 @@
 import React from 'react'
 import video from '../assets/video.mp4'
 import StepperControl from '../StepperControl';
+import { useUserData } from '../context/UserDataContext';
 
+import axios from 'axios';
 
 const YourDashBoard = ( {currentStep, steps, handleClick }) => {
-  const handleSubmit = () => {
-    console.log("Your dashboard");
-    handleClick("next");
+
+  const { userData } = useUserData();
+  
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    try{
+      let res = await axios.post("http://localhost:8000/api/mail",userData,{
+        headers:{
+          'Content-Type':'application/json',
+        },
+      });
+      console.log(res);
+      handleClick("next");
+    } catch(error){
+      console.error('Error creating user:',error.response.data);
+    }
+    
   }
   return (
     <div>

@@ -1,21 +1,15 @@
 import React, { useState, useEffect,useContext } from 'react';
-import { userDataContext } from '../context/UserDataContext';
+import { useUserData } from '../context/UserDataContext';
 import StepperControl from '../StepperControl';
 
 const TrackYourEmails = ({ currentStep, steps, handleClick}) => {
 
-  const { userData, setUserData } = useContext(userDataContext);
+  const { userData, updateUserData } = useUserData();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
   const [hour, setHour] = useState(12);
   const [minute, setMinute] = useState(0);
   const [isPM, setIsPM] = useState(false);
-  const [mailData, setMailData] = useState({
-    date: '',
-    time: '',
-    timeZone: '',
-    email: ''
-  });
   const [errors, setErrors] = useState({});
 
   const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -33,42 +27,22 @@ const TrackYourEmails = ({ currentStep, steps, handleClick}) => {
       setMinute(parseInt(minutes));
       setIsPM(period === 'PM');
     }
-    setMailData(userData);
   }, []);
 
   useEffect(() => {
     if (selectedDate) {
       const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${selectedDate.toString().padStart(2, '0')}`;
-      setMailData(prevData => ({
-        ...prevData,
-        date: formattedDate
-      }));
+      updateUserData({ date: formattedDate });
     }
   }, [selectedDate, currentDate]);
 
   useEffect(() => {
     const formattedHour = isPM ? (hour % 12) + 12 : hour % 12;
     const formattedTime = `${formattedHour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} ${isPM ? 'PM' : 'AM'}`;
-    setMailData(prevData => ({
-      ...prevData,
-      time: formattedTime
-    }));
+    updateUserData({ time: formattedTime });
   }, [hour, minute, isPM]);
 
-  const handleChange = (field, value) => {
-    setMailData(prevData => ({
-      ...prevData,
-      [field]: value
-    }));
-  };
-
-   useEffect(() => {
-    setUserData(prevData => ({
-      ...prevData,
-      ...mailData
-    }));
-  }, [mailData, setUserData]);
-
+  console.log(userData)
 
   const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
   let firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
@@ -118,12 +92,18 @@ const TrackYourEmails = ({ currentStep, steps, handleClick}) => {
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
   };
 
+  const handleChange = (field, value) => {
+    updateUserData({ [field]: value });
+    setErrors({ [field]: '' });
+  };
+
+
   const validate = () => {
     const newErrors = {};
-    if (!mailData.date) newErrors.date = 'Date is required';
-    if (!mailData.time) newErrors.time = 'Time is required';
-    if (!mailData.timeZone) newErrors.timeZone = 'Time zone is required';
-    if (!mailData.email) newErrors.email = 'Email is required';
+    if (!userData.date) newErrors.date = 'Date is required';
+    if (!userData.time) newErrors.time = 'Time is required';
+    if (!userData.timeZone) newErrors.timeZone = 'Time zone is required';
+    if (!userData.email) newErrors.email = 'Email is required';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -185,7 +165,7 @@ const TrackYourEmails = ({ currentStep, steps, handleClick}) => {
               <select
                 id="countries"
                 className="bg-white shadow-md border border-gray-300 text-gray-900 text-sm rounded-full block w-[200px] p-3 dark:placeholder-gray-400"
-                value={mailData.timeZone}
+                value={userData.timeZone}
                 onChange={(e) => handleChange('timeZone', e.target.value)}
               >
                 <option value="" className="font-200 text-gray-200">Recipient's timezone</option>
@@ -196,13 +176,13 @@ const TrackYourEmails = ({ currentStep, steps, handleClick}) => {
               </select>
               {errors.timeZone && <p className="text-red-500 text-xs mt-1">{errors.timeZone}</p>}
             </div>
-            <div className="mt-6 mr-5">
+            <div className="mt-6 mr-2">
               <input
                 type="email"
                 id="email"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="john.doe@company.com"
-                value={mailData.email}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[200px] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                placeholder="john.doe@domain.com"
+                value={userData.email}
                 onChange={(e) => handleChange('email', e.target.value)}
               />
               {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}

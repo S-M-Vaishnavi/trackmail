@@ -5,19 +5,11 @@ import TrackYourEmails from './pages/TrackYourEmails';
 import AutomateYourFollowUps from './pages/AutomateYourFollowUps';
 import YourDashBoard from './pages/YourDashBoard';
 import ThankYou from './pages/ThankYou';
-import { userDataContext } from './context/UserDataContext';
+import { UserDataProvider  } from './context/UserDataContext';
 
 const App = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const [userData, setUserData] = useState({
-    date: '',
-    time: '',
-    timeZone: '',
-    email: '',
-    followUps:'',
-  });
-  const [finalData, setFinalData] = useState([]);
-
+ 
   const steps = [
     "Track your emails",
     "Automate your follow-ups",
@@ -41,15 +33,15 @@ const App = () => {
   const renderStepContent = (currentStep) => {
     switch(currentStep) {
       case 1:
-        return <TrackYourEmails handleClick={handleClick} currentStep={currentStep} steps={steps} userData={userData} setUserData={setUserData}/>;
+        return <TrackYourEmails handleClick={handleClick} currentStep={currentStep} steps={steps} />;
       case 2:
-        return <AutomateYourFollowUps handleClick={handleClick} currentStep={currentStep} steps={steps} userData={userData} setUserData={setUserData}/>;
+        return <AutomateYourFollowUps handleClick={handleClick} currentStep={currentStep} steps={steps} />;
       case 3:
-        return <YourDashBoard handleClick={handleClick} currentStep={currentStep} steps={steps} userData={userData} setUserData={setUserData}/>;
+        return <YourDashBoard handleClick={handleClick} currentStep={currentStep} steps={steps} />;
       case 4:
         return <ThankYou />;
       default:
-        return <TrackYourEmails handleClick={handleClick} currentStep={currentStep} steps={steps} userData={userData} setUserData={setUserData}/>;
+        return <TrackYourEmails handleClick={handleClick} currentStep={currentStep} steps={steps} />;
     }
   };
 
@@ -58,9 +50,9 @@ const App = () => {
       <Sidebar currentStep={currentStep} steps={steps} />
       <main className="w-2/3 bg-gray-100 p-8 rounded-r-xl flex flex-col justify-between">
         <div>
-          <userDataContext.Provider value={{userData,setUserData,finalData,setFinalData}}>
+          <UserDataProvider >
           {renderStepContent(currentStep)}
-          </userDataContext.Provider>
+          </UserDataProvider>
         </div>
       </main>
     </div>
