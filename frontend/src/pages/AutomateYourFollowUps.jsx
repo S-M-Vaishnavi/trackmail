@@ -64,8 +64,8 @@ const AutomateYourFollowUps = ({ currentStep, steps, handleClick }) => {
             </button>
           </div>
         </div>
-        <StepperControl  handleClick={handleClick}  handleSubmit={handleSubmit}  currentStep={currentStep}  steps={steps} />
       </div>
+      <StepperControl  handleClick={handleClick}  handleSubmit={handleSubmit}  currentStep={currentStep}  steps={steps} />
     </div>
   )
 }

@@ -121,19 +121,19 @@ const TrackYourEmails = ({ currentStep, steps, handleClick}) => {
       <p className="mb-2 text-gray-600">Know what happens after you click send.</p>
       <p className="mb-6 text-gray-600">Get alerts when your e-mails are opened, clicked, and replied to.</p>
 
-      <div className="bg-white rounded-lg shadow-md p-6">
+      <div className="bg-white shadow-md pt-[20px]">
         <div className="flex justify-around items-start">
           <div>
             <div className="w-72 p-4 font-sans">
-              <div className="flex justify-between items-center mb-4">
+              <div className="flex justify-evenly items-center mb-2">
                 <button onClick={prevMonth} className="text-xl hover:text-orange-500 transition-colors duration-200">&lt;</button>
                 <h2 className="text-lg font-bold">{months[currentDate.getMonth()]} {currentDate.getFullYear()}</h2>
                 <button onClick={nextMonth} className="text-xl hover:text-orange-500 transition-colors duration-200">&gt;</button>
               </div>
-              <div className="grid grid-cols-7 gap-1 text-center font-bold mb-2">
+              <div className="grid grid-cols-7 gap-[10px] text-center font-bold mb-2">
                 <div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div><div>S</div>
               </div>
-              <div className="grid grid-cols-7 gap-1 text-center">
+              <div className="grid grid-cols-7 gap-[10px] text-center -ml-[8px]">
                 {renderCalendarDays()}
               </div>
             </div>
@@ -164,7 +164,7 @@ const TrackYourEmails = ({ currentStep, steps, handleClick}) => {
             <div className="mt-6 text-sm text-gray-500 mr-2">
               <select
                 id="countries"
-                className="bg-white shadow-md border border-gray-300 text-gray-900 text-sm rounded-full block w-[200px] p-3 dark:placeholder-gray-400"
+                className="bg-white shadow-md border border-gray-300 text-gray-900 text-sm rounded-full block w-[236px] p-3 dark:placeholder-gray-400"
                 value={userData.timeZone}
                 onChange={(e) => handleChange('timeZone', e.target.value)}
               >
@@ -180,7 +180,7 @@ const TrackYourEmails = ({ currentStep, steps, handleClick}) => {
               <input
                 type="email"
                 id="email"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[200px] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[236px] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                 placeholder="john.doe@domain.com"
                 value={userData.email}
                 onChange={(e) => handleChange('email', e.target.value)}
@@ -189,8 +189,8 @@ const TrackYourEmails = ({ currentStep, steps, handleClick}) => {
             </div>
           </div>
         </div>
-        <StepperControl  handleClick={handleClick}  handleSubmit={handleSubmit}  currentStep={currentStep}  steps={steps} />
       </div>
+      <StepperControl  handleClick={handleClick}  handleSubmit={handleSubmit}  currentStep={currentStep}  steps={steps} />
     </div>
   );
 };

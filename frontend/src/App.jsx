@@ -1,15 +1,16 @@
-
 import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import TrackYourEmails from './pages/TrackYourEmails';
 import AutomateYourFollowUps from './pages/AutomateYourFollowUps';
 import YourDashBoard from './pages/YourDashBoard';
 import ThankYou from './pages/ThankYou';
-import { UserDataProvider  } from './context/UserDataContext';
+import { UserDataProvider } from './context/UserDataContext';
+import Modal from './components/Modal';
 
 const App = () => {
   const [currentStep, setCurrentStep] = useState(1);
- 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const steps = [
     "Track your emails",
     "Automate your follow-ups",
@@ -45,18 +46,32 @@ const App = () => {
     }
   };
 
+  const openModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
   return (
-    <div className="bg-gray-100 w-[80rem] h-[39rem] mt-[41px] rounded-xl shadow-xl flex mx-auto">
-      <Sidebar currentStep={currentStep} steps={steps} />
-      <main className="w-2/3 bg-gray-100 p-8 rounded-r-xl flex flex-col justify-between">
-        <div>
-          <UserDataProvider >
-          {renderStepContent(currentStep)}
-          </UserDataProvider>
+    <div className="bg-gray-100 w-full h-screen flex flex-col items-center justify-center">
+      <button onClick={openModal} className="bg-blue-500 text-white p-4 rounded mb-4"> Open Modal</button>
+      <Modal isVisible={isModalVisible} onClose={closeModal}>
+        <div className="w-[80rem] h-[39rem] rounded-xl shadow-xl flex mx-auto bg-gray-100">
+          <Sidebar currentStep={currentStep} steps={steps} />
+          <main className="w-2/3 bg-gray-100 p-8 rounded-r-xl flex flex-col justify-between">
+            <div>
+              <UserDataProvider>
+                {renderStepContent(currentStep)}
+              </UserDataProvider>
+            </div>
+          </main>
         </div>
-      </main>
+      </Modal>
     </div>
   );
 };
 
 export default App;
+
