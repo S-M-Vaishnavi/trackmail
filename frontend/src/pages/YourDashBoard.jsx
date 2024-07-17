@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import video from '../assets/video.mp4'
 import StepperControl from '../StepperControl';
 import { useUserData } from '../context/UserDataContext';
@@ -8,6 +8,7 @@ import axios from 'axios';
 const YourDashBoard = ( {currentStep, steps, handleClick }) => {
 
   const { userData } = useUserData();
+  const[serverError,setServerError] = useState('');
   
   const handleSubmit = async(e) => {
     e.preventDefault();
@@ -20,7 +21,11 @@ const YourDashBoard = ( {currentStep, steps, handleClick }) => {
       console.log(res);
       handleClick("next");
     } catch(error){
-      console.error('Error creating user:',error.response.data);
+      if (axios.isAxiosError(error)) {
+        setServerError(error.response?.data.error || 'The email has already been taken!Enter any other email');
+    } else {
+        console.error('Error', error);
+    }
     }
     
   }
@@ -31,6 +36,7 @@ const YourDashBoard = ( {currentStep, steps, handleClick }) => {
         <p className="mb-2 text-gray-600">See your metrics like average open rate,click rate, and reply rate.</p>
         <p className="mb-6 text-gray-600">Configure your Ping sequences and other settings.</p>
         <video src={video} controls className='w-[600px] h-[300px] mx-auto'></video>
+        {serverError && <p className='text-red-500 text-sm mt-1 text-center text-bold'>{serverError}</p>}
         <StepperControl handleSubmit={handleSubmit}  handleClick={handleClick} currentStep={currentStep} steps={steps} />
     </div>
   </div>
