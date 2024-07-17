@@ -58,7 +58,7 @@ const App = () => {
     <div className="bg-gray-100 w-full h-screen flex flex-col items-center justify-center">
       <button onClick={openModal} className="bg-blue-500 text-white p-4 rounded mb-4"> Open Modal</button>
       <Modal isVisible={isModalVisible} onClose={closeModal}>
-        <div className="w-[80rem] h-[39rem] rounded-xl shadow-xl flex mx-auto bg-gray-100">
+        <div className="w-[80rem] h-[40rem] rounded-xl shadow-xl flex mx-auto bg-gray-100">
           <Sidebar currentStep={currentStep} steps={steps} />
           <main className="w-2/3 bg-gray-100 p-8 rounded-r-xl flex flex-col justify-between">
             <div>

@@ -133,7 +133,7 @@ const TrackYourEmails = ({ currentStep, steps, handleClick}) => {
               <div className="grid grid-cols-7 gap-1 text-center font-bold mb-2">
                 <div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div><div>S</div>
               </div>
-              <div className="grid grid-cols-7 gap-1 text-center -ml-[8px]">
+              <div className="grid grid-cols-7 gap-1 text-center -ml-[8px]" style={{ gridTemplateRows: 'repeat(5, 1fr)' }}>
                 {renderCalendarDays()}
               </div>
             </div>
